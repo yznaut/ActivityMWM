@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Watchlist Manager</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="app-body">
+    <header class="app-header">
+        <div class="header-left">
+            <div class="logo-container">
+                <img src="MWM Logo.jpg" alt="MWM Logo" class="app-logo">
+            </div>
+            <h1 class="header-text">MOVIE WATCHLIST MANAGER</h1>
+        </div>
+        <div class="header-right" id="watchTabs">
+            <button class="tab-btn active" id="watchingTab" onclick="switchTab('watching')">WATCHING</button>
+            <button class="tab-btn" id="watchedTab" onclick="switchTab('watched')">WATCHED</button>
+        </div>
+        <div class="header-right hidden" id="aboutTabs">
+            <button class="tab-btn active" id="aboutMwmTab" onclick="switchAboutTab('about')">ABOUT MWM</button>
+            <button class="tab-btn" id="developersTab" onclick="switchAboutTab('developers')">DEVELOPERS</button>
+        </div>
+    </header>
+
+    <div class="app-container">
+        <aside class="sidebar">
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" id="navHome" onclick="showSection('home')">HOME</a>
+                <a href="#" class="nav-item" id="navFavorite" onclick="showSection('favorite')">FAVORITE</a>
+                <a href="#" class="nav-item" id="navProfile" onclick="showSection('profile')">PROFILE</a>
+                <a href="#" class="nav-item" id="navAbout" onclick="showSection('about')">ABOUT</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <!-- Home Section -->
+            <section id="homeSection" class="content-section">
+                <div class="search-container">
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="SEARCH" onkeyup="searchMovies()">
+                        <span class="search-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.35-4.35"></path>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="movies-grid" id="moviesGrid">
+                    <!-- Add Movie Card with text inside -->
+                    <div class="add-movie-card" onclick="openAddMovieModal()">
+                        <div class="add-icon">+</div>
+                        <p class="add-text">ADD MOVIE</p>
+                    </div>
+                    <!-- Movie cards will be inserted here -->
+                </div>
+            </section>
+
+            <!-- Favorite Section -->
+            <section id="favoriteSection" class="content-section hidden">
+                <div class="search-container">
+                    <div class="search-box">
+                        <input type="text" id="favoriteSearchInput" placeholder="SEARCH" onkeyup="searchFavorites()">
+                        <span class="search-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.35-4.35"></path>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="movies-grid" id="favoriteGrid"></div>
+            </section>
+
+            <!-- Profile Section -->
+            <section id="profileSection" class="content-section hidden">
+                <div class="profile-box">
+                    <h2 class="section-title">PROFILE</h2>
+                    <div class="profile-info">
+                        <p><strong>USERNAME :</strong> <span id="profileUsername"></span></p>
+                        <p><strong>EMAIL:</strong> <span id="profileEmail"></span></p>
+                    </div>
+                    <button class="logout-btn" onclick="logout()">LOG OUT</button>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section id="aboutSection" class="content-section hidden">
+                <div class="about-box" id="aboutMwmContent">
+                    <h2 class="section-title">ABOUT MWM</h2>
+                    <div class="about-content">
+                        <p><strong>Purpose:</strong> MWM helps movie enthusiasts organize their watchlist, track what they're currently watching, and record their thoughts on finished movies with ratings and comments.</p>
+                       
+                        <h3>Key Features</h3>
+                        <ul>
+                            <li>Add movies with title, genre, and release date</li>
+                            <li>Move movies from "Currently Watching" to "Watched"</li>
+                            <li>Rate watched movies with 1-5 stars</li>
+                            <li>Add personal comments/reviews</li>
+                            <li>Delete any movie entry</li>
+                            <li>Responsive and clean modern UI</li>
+                            <li>Persistent data using localStorage</li>
+                        </ul>
+
+                        <h3>Technologies Used</h3>
+                        <ul>
+                            <li>HTML5</li>
+                            <li>CSS3 (Flexbox & Grid)</li>
+                            <li>Vanilla JavaScript</li>
+                            <li>Font Awesome Icons</li>
+                            <li>Netlify for Deployment</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="about-box hidden" id="developersContent">
+                    <h2 class="section-title">DEVELOPERS</h2>
+                    <div class="developers-grid">
+                        <div class="developer-card">
+                            <div class="developer-avatar">
+                                <svg viewBox="0 0 100 100" fill="#003366">
+                                    <circle cx="50" cy="35" r="20"/>
+                                    <path d="M50 60 Q20 60 10 90 L90 90 Q80 60 50 60"/>
+                                </svg>
+                            </div>
+                            <p class="developer-name">Jusmine</p>
+                            <p class="developer-role">Role: Frontend Developer & Designer</p>
+                        </div>
+                        <div class="developer-card">
+                            <div class="developer-avatar">
+                                <svg viewBox="0 0 100 100" fill="#003366">
+                                    <circle cx="50" cy="35" r="20"/>
+                                    <path d="M50 60 Q20 60 10 90 L90 90 Q80 60 50 60"/>
+                                </svg>
+                            </div>
+                            <p class="developer-name">Nezzerlie Heaven</p>
+                            <p class="developer-role">Role: JavaScript Developer</p>
+                        </div>
+                        <div class="developer-card">
+                            <div class="developer-avatar">
+                                <svg viewBox="0 0 100 100" fill="#003366">
+                                    <circle cx="50" cy="35" r="20"/>
+                                    <path d="M50 60 Q20 60 10 90 L90 90 Q80 60 50 60"/>
+                                </svg>
+                            </div>
+                            <p class="developer-name">Tiffany</p>
+                            <p class="developer-role">Role: Tester & Documenter</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Add Movie Modal -->
+    <div class="modal hidden" id="addMovieModal">
+        <div class="modal-content">
+            <h3>Add New Movie</h3>
+            <form id="addMovieForm">
+                <div class="input-group">
+                    <input type="text" id="movieTitle" placeholder="Title" required>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="movieGenre" placeholder="Genre" required>
+                </div>
+                <div class="input-group">
+                    <input type="date" id="movieReleaseDate" required>
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="modal-btn cancel" onclick="closeAddMovieModal()">Cancel</button>
+                    <button type="submit" class="modal-btn confirm">Add Movie</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Rate Movie Modal -->
+    <div class="modal hidden" id="rateModal">
+        <div class="modal-content">
+            <h3>Rate Movie</h3>
+            <div class="rating-input">
+                <label>RATE :</label>
+                <div class="star-rating" id="starRating">
+                    <span class="star" data-rating="1">★</span>
+                    <span class="star" data-rating="2">★</span>
+                    <span class="star" data-rating="3">★</span>
+                    <span class="star" data-rating="4">★</span>
+                    <span class="star" data-rating="5">★</span>
+                </div>
+            </div>
+            <div class="input-group">
+                <textarea id="movieComments" placeholder="COMMENTS:" rows="4"></textarea>
+            </div>
+            <div class="modal-buttons">
+                <button type="button" class="modal-btn cancel" onclick="closeRateModal()">Cancel</button>
+                <button type="button" class="modal-btn confirm" onclick="submitRating()">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast hidden" id="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
